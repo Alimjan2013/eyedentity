@@ -3,40 +3,112 @@ import VotingComponent from "./info";
 
 const GazeTracker = () => {
     const [prediction, setPrediction] = useState({ x: null, y: null });
-    const [currentDirection, setCurrentDirection] = useState("Ready");
-    const [isRandomizing, setIsRandomizing] = useState(false);
-    const [testResults, setTestResults] = useState([
-        false,
-        false,
-        false,
-        false,
-    ]);
+
+    //const [isRandomizing, setIsRandomizing] = useState(false);
+    const [classification, setClassification] = useState("none");
     const [isSuccessful, setIsSuccessful] = useState(true);
 
-    const startRandomizing = () => {
-        setIsRandomizing(true);
+    const directions = ["top", "left", "bottom", "right"];
+    const directionTexts = {
+        top: "👆\nUp",
+        left: "👈 Left",
+        right: "Right 👉",
+        bottom: "Down\n👇",
+    };
+    const [currentDirection, setCurrentDirection] = useState("Ready");
+    const [testStatus, setTestStatus] = useState("Not started");
+    const [flashEffect, setFlashEffect] = useState(false);
+    const [stepCount, setStepCount] = useState(0);
+
+    const [matchingTime, setMatchingTime] = useState([0, 0, 0, 0]); // Array for [top, left, bottom, right]
+    const [startTime, setStartTime] = useState(null);
+    const [timerRunning, setTimerRunning] = useState(false);
+
+    const overlayStyle = {
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        backgroundColor: "transparent",
+        pointerEvents: "none",
     };
 
-    useEffect(() => {
-        let interval;
-        if (isRandomizing) {
-            interval = setInterval(() => {
-                const directions = [
-                    "👈 Left",
-                    "Right 👉",
-                    "👆\nUp",
-                    "Down\n👇",
-                ];
-                const randomDirection =
-                    directions[Math.floor(Math.random() * directions.length)];
-                setCurrentDirection(randomDirection);
-            }, 3000); // Change every 3 seconds
-        }
+    if (classification === "top") {
+        overlayStyle.height = "50%";
+        overlayStyle.backgroundColor = "rgba(0, 255, 0, 0.2)";
+    } else if (classification === "bottom") {
+        overlayStyle.top = "50%";
+        overlayStyle.height = "50%";
+        overlayStyle.backgroundColor = "rgba(0, 255, 0, 0.2)";
+    } else if (classification === "left") {
+        overlayStyle.width = "50%";
+        overlayStyle.backgroundColor = "rgba(0, 255, 0, 0.2)";
+    } else if (classification === "right") {
+        overlayStyle.left = "50%";
+        overlayStyle.width = "50%";
+        overlayStyle.backgroundColor = "rgba(0, 255, 0, 0.2)";
+    }
 
-        return () => {
-            if (interval) clearInterval(interval);
+    useEffect(() => {
+        const handlePrediction = () => {
+            if (!prediction) {
+                setClassification("none");
+                return;
+            }
+
+            const { x, y } = prediction;
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+            const middleXStart = screenWidth * 0.25;
+            const middleXEnd = screenWidth * 0.75;
+            const middleYStart = screenHeight * 0.25;
+            const middleYEnd = screenHeight * 0.75;
+
+            if (
+                x > middleXStart &&
+                x < middleXEnd &&
+                y > middleYStart &&
+                y < middleYEnd
+            ) {
+                // Exclude middle part
+                setClassification("none");
+            } else if (
+                y < screenHeight / 2 &&
+                x > middleXStart &&
+                x < middleXEnd
+            ) {
+                // Top half excluding corners and middle
+                setClassification("top");
+            } else if (
+                y > screenHeight / 2 &&
+                x > middleXStart &&
+                x < middleXEnd
+            ) {
+                // Bottom half excluding corners and middle
+                setClassification("bottom");
+            } else if (
+                x < screenWidth / 2 &&
+                y > middleYStart &&
+                y < middleYEnd
+            ) {
+                // Left side excluding corners and middle
+                setClassification("left");
+            } else if (
+                x > screenWidth / 2 &&
+                y > middleYStart &&
+                y < middleYEnd
+            ) {
+                // Right side excluding corners and middle
+                setClassification("right");
+            } else {
+                // Corners or undefined area
+                setClassification("none");
+            }
         };
-    }, [isRandomizing]);
+
+        handlePrediction();
+    }, [prediction]);
 
     useEffect(() => {
         // Ensure WebGazer is available and properly loaded
@@ -50,9 +122,6 @@ const GazeTracker = () => {
                         setPrediction({ x: xprediction, y: yprediction });
                         //checkGazePosition(xprediction, yprediction);
                     }
-
-                    // console.log(xprediction);
-                    // setPrediction({x: xprediction, y: yprediction});
                 })
                 .showVideo(true) // Display the camera monitor
                 .showFaceOverlay(true)
@@ -62,63 +131,73 @@ const GazeTracker = () => {
         }
     }, []);
 
-    const getOverlayStyles = () => {
-        const styles = {
-            top: { display: "none" },
-            bottom: { display: "none" },
-            left: { display: "none" },
-            right: { display: "none" },
-        };
+    const startTest = () => {
+        setTestStatus("Starting...");
+        setCurrentDirection("none");
+        setStepCount(0);
 
-        if (prediction.x !== null && prediction.y !== null) {
-            const windowWidth = window.innerWidth;
-            const windowHeight = window.innerHeight;
-            const margin = 300; // Define margin to consider as "near"
+        setMatchingTime([0, 0, 0, 0]); // Reset the time array
+        setStartTime(null);
+        setTimerRunning(false);
 
-            const isNearTop = prediction.y < margin;
-            const isNearBottom = prediction.y > windowHeight - margin;
-            const isNearLeft = prediction.x < margin;
-            const isNearRight = prediction.x > windowWidth - margin;
-
-            // Check if not at the corner
-            if (
-                !(isNearTop && (isNearLeft || isNearRight)) &&
-                !(isNearBottom && (isNearLeft || isNearRight))
-            ) {
-                if (isNearTop) {
-                    styles.top = {
-                        display: "block",
-                        backgroundColor: "rgba(0, 255, 0, 0.5)",
-                    };
-                }
-                if (isNearBottom) {
-                    styles.bottom = {
-                        display: "block",
-                        backgroundColor: "rgba(0, 255, 0, 0.5)",
-                    };
-                }
-                if (isNearLeft) {
-                    styles.left = {
-                        display: "block",
-                        backgroundColor: "rgba(0, 255, 0, 0.5)",
-                    };
-                }
-                if (isNearRight) {
-                    styles.right = {
-                        display: "block",
-                        backgroundColor: "rgba(0, 255, 0, 0.5)",
-                    };
-                }
-            }
+        const randomizedDirections = [];
+        for (let i = 0; i < 4; i++) {
+            const randomDirection =
+                directions[Math.floor(Math.random() * directions.length)];
+            randomizedDirections.push(randomDirection);
         }
 
-        return styles;
+        let index = 0;
+        setTimerRunning(true);
+
+        const intervalId = setInterval(() => {
+            if (index < randomizedDirections.length) {
+                setCurrentDirection(randomizedDirections[index]);
+                setTestStatus("Running");
+                setStepCount(index + 1);
+
+                if (index === 0) {
+                    setStartTime(Date.now());
+                }
+                setFlashEffect(true);
+
+                // Brief flash effect for better visibility
+                setTimeout(() => setFlashEffect(false), 500);
+                index++;
+            } else {
+                clearInterval(intervalId);
+                setTimerRunning(false);
+                setCurrentDirection("none");
+                setTestStatus("Finished test, you can click and try again");
+            }
+        }, 3000);
     };
 
-    const overlayStyles = getOverlayStyles();
+    useEffect(() => {
+        let timerId;
+        if (
+            timerRunning &&
+            currentDirection !== "none" &&
+            classification === currentDirection
+        ) {
+            timerId = setInterval(() => {
+                setMatchingTime((prevTime) => {
+                    const directionIndex = directions.indexOf(currentDirection);
+                    const newTimeArray = [...prevTime];
+                    newTimeArray[directionIndex] += 0.1; // Increment by 0.1s for every 100ms check
+                    return newTimeArray;
+                });
+            }, 100);
+        }
+
+        return () => clearInterval(timerId);
+    }, [classification, currentDirection, timerRunning]);
+
+    const totalMatchingTime = matchingTime.reduce((acc, time) => acc + time, 0);
 
     return (
         <>
+            <div style={overlayStyle}></div>
             <VotingComponent
                 isSuccessful={isSuccessful}
                 style={{ zIndex: 1001 }}
@@ -148,20 +227,7 @@ const GazeTracker = () => {
                     </p>
                 </div>
                 <button
-                    onClick={() => {
-                        const directions = [
-                            "👈 Left",
-                            "Right 👉",
-                            "👆\nUp",
-                            "Down\n👇",
-                        ];
-                        const randomDirection =
-                            directions[
-                                Math.floor(Math.random() * directions.length)
-                            ];
-                        setCurrentDirection(randomDirection);
-                        startRandomizing();
-                    }}
+                    onClick={startTest}
                     style={{
                         display: "flex",
                         flexDirection: "row",
@@ -188,57 +254,39 @@ const GazeTracker = () => {
                         // margin: 0,
                         // padding: 0,
                         fontSize: 40,
-
-                        zIndex: 1000, // Ensure it appears above other elements
+                        backgroundColor: flashEffect
+                            ? "rgba(0, 255, 255, 0.2)"
+                            : "transparent",
+                        zIndex: 999, // Ensure it appears above other elements
                     }}
                 >
-                    <span>{currentDirection}</span>
+                    {testStatus === "Starting..." && "Starting..."}
+                    {testStatus === "Running" &&
+                        currentDirection !== "none" && (
+                            <div>
+                                <div>Step {stepCount}:</div>
+                                <div>{directionTexts[currentDirection]}</div>
+                            </div>
+                        )}
+                    {testStatus ===
+                        "Finished test, you can click and try again" && (
+                        <div>
+                            Finished test, you can click and try again
+                            <div>
+                                Matching times:{" "}
+                                {matchingTime
+                                    .map((time) => time.toFixed(1))
+                                    .join(", ")}
+                            </div>
+                            <div>
+                                Total matching time:{" "}
+                                {totalMatchingTime.toFixed(1)}s
+                            </div>
+                        </div>
+                    )}
                 </div>
-
-                <div
-                    style={{
-                        ...overlayStyles.top,
-                        position: "absolute",
-                        top: 0,
-                        left: 0,
-                        width: "100%",
-                        height: "50%",
-                        zIndex: 999,
-                    }}
-                ></div>
-                <div
-                    style={{
-                        ...overlayStyles.bottom,
-                        position: "absolute",
-                        bottom: 0,
-                        left: 0,
-                        width: "100%",
-                        height: "50%",
-                        zIndex: 999,
-                    }}
-                ></div>
-                <div
-                    style={{
-                        ...overlayStyles.left,
-                        position: "absolute",
-                        top: 0,
-                        left: 0,
-                        width: "50%",
-                        height: "100%",
-                        zIndex: 999,
-                    }}
-                ></div>
-                <div
-                    style={{
-                        ...overlayStyles.right,
-                        position: "absolute",
-                        top: 0,
-                        right: 0,
-                        width: "50%",
-                        height: "100%",
-                        zIndex: 999,
-                    }}
-                ></div>
+                <div>{currentDirection}</div>
+                <div>{classification}</div>
             </div>
         </>
     );
