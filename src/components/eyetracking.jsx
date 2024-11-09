@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import VotingComponent from "./info";
 
 const GazeTracker = () => {
     const [prediction, setPrediction] = useState({ x: null, y: null });
     const [currentDirection, setCurrentDirection] = useState("Ready");
     const [isRandomizing, setIsRandomizing] = useState(false);
+    const [testResults, setTestResults] = useState([
+        false,
+        false,
+        false,
+        false,
+    ]);
+    const [isSuccessful, setIsSuccessful] = useState(true);
 
     const startRandomizing = () => {
         setIsRandomizing(true);
@@ -41,6 +48,7 @@ const GazeTracker = () => {
                         var yprediction = data.y;
                         console.log(xprediction);
                         setPrediction({ x: xprediction, y: yprediction });
+                        //checkGazePosition(xprediction, yprediction);
                     }
 
                     // console.log(xprediction);
@@ -110,122 +118,129 @@ const GazeTracker = () => {
     const overlayStyles = getOverlayStyles();
 
     return (
-        <div>
-            <div
-                style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    position: "fixed",
-                    right: 0,
-                    top: 0,
-                    margin: 0,
-                    padding: 0,
-                    // width: "100%",
-                    // backgroundColor: "white",
-                    // padding: "10px",
-                    zIndex: 1000, // Ensure it appears above other elements
-                }}
-                //className="flex flex-row absolute top-0 left-0 w-full pad-[10px] z-[1000]"
-            >
-                <p>
-                    Current Gaze Position: X:{" "}
-                    {prediction.x ? prediction.x.toFixed(2) : "N/A"}, Y:{" "}
-                    {prediction.y ? prediction.y.toFixed(2) : "N/A"}
-                </p>
-            </div>
-            <button
-                onClick={() => {
-                    const directions = [
-                        "👈 Left",
-                        "Right 👉",
-                        "👆\nUp",
-                        "Down\n👇",
-                    ];
-                    const randomDirection =
-                        directions[
-                            Math.floor(Math.random() * directions.length)
+        <>
+            <VotingComponent
+                isSuccessful={isSuccessful}
+                style={{ zIndex: 1001 }}
+            ></VotingComponent>
+            <div>
+                <a href="https://www.google.com">click here</a>
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        position: "fixed",
+                        right: 0,
+                        top: 0,
+                        margin: 0,
+                        padding: 0,
+                        // width: "100%",
+                        // backgroundColor: "white",
+                        // padding: "10px",
+                        zIndex: 1000, // Ensure it appears above other elements
+                    }}
+                    //className="flex flex-row absolute top-0 left-0 w-full pad-[10px] z-[1000]"
+                >
+                    <p>
+                        Current Gaze Position: X:{" "}
+                        {prediction.x ? prediction.x.toFixed(2) : "N/A"}, Y:{" "}
+                        {prediction.y ? prediction.y.toFixed(2) : "N/A"}
+                    </p>
+                </div>
+                <button
+                    onClick={() => {
+                        const directions = [
+                            "👈 Left",
+                            "Right 👉",
+                            "👆\nUp",
+                            "Down\n👇",
                         ];
-                    setCurrentDirection(randomDirection);
-                    startRandomizing();
-                }}
-                style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    position: "fixed",
-                    right: 0,
-                    top: "3em",
-                    margin: 0,
+                        const randomDirection =
+                            directions[
+                                Math.floor(Math.random() * directions.length)
+                            ];
+                        setCurrentDirection(randomDirection);
+                        startRandomizing();
+                    }}
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        position: "fixed",
+                        right: 0,
+                        top: "3em",
+                        margin: 0,
 
-                    fontSize: 30,
-                    zIndex: 1000,
-                    border: "solid",
-                    padding: "4px", // Ensure it appears above other elements
-                }}
-            >
-                Start Human Testing
-            </button>
-            <div
-                style={{
-                    // display: "flex",
-                    // flexDirection: "row",
-                    // position: "fixed",
-                    // right: 0,
-                    // top: "5em",
-                    // margin: 0,
-                    // padding: 0,
-                    fontSize: 40,
+                        fontSize: 30,
+                        zIndex: 1000,
+                        border: "solid",
+                        padding: "4px", // Ensure it appears above other elements
+                    }}
+                >
+                    Start Human Testing
+                </button>
+                <div
+                    style={{
+                        // display: "flex",
+                        // flexDirection: "row",
+                        // position: "fixed",
+                        // right: 0,
+                        // top: "5em",
+                        // margin: 0,
+                        // padding: 0,
+                        fontSize: 40,
 
-                    zIndex: 1000, // Ensure it appears above other elements
-                }}
-            >
-                <span>{currentDirection}</span>
+                        zIndex: 1000, // Ensure it appears above other elements
+                    }}
+                >
+                    <span>{currentDirection}</span>
+                </div>
+
+                <div
+                    style={{
+                        ...overlayStyles.top,
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        width: "100%",
+                        height: "50%",
+                        zIndex: 999,
+                    }}
+                ></div>
+                <div
+                    style={{
+                        ...overlayStyles.bottom,
+                        position: "absolute",
+                        bottom: 0,
+                        left: 0,
+                        width: "100%",
+                        height: "50%",
+                        zIndex: 999,
+                    }}
+                ></div>
+                <div
+                    style={{
+                        ...overlayStyles.left,
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        width: "50%",
+                        height: "100%",
+                        zIndex: 999,
+                    }}
+                ></div>
+                <div
+                    style={{
+                        ...overlayStyles.right,
+                        position: "absolute",
+                        top: 0,
+                        right: 0,
+                        width: "50%",
+                        height: "100%",
+                        zIndex: 999,
+                    }}
+                ></div>
             </div>
-
-            <div
-                style={{
-                    ...overlayStyles.top,
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    width: "100%",
-                    height: "50%",
-                    zIndex: 999,
-                }}
-            ></div>
-            <div
-                style={{
-                    ...overlayStyles.bottom,
-                    position: "absolute",
-                    bottom: 0,
-                    left: 0,
-                    width: "100%",
-                    height: "50%",
-                    zIndex: 999,
-                }}
-            ></div>
-            <div
-                style={{
-                    ...overlayStyles.left,
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    width: "50%",
-                    height: "100%",
-                    zIndex: 999,
-                }}
-            ></div>
-            <div
-                style={{
-                    ...overlayStyles.right,
-                    position: "absolute",
-                    top: 0,
-                    right: 0,
-                    width: "50%",
-                    height: "100%",
-                    zIndex: 999,
-                }}
-            ></div>
-        </div>
+        </>
     );
 };
 
