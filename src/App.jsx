@@ -5,6 +5,7 @@ function App() {
   return (
     <>
         <div>
+            <GazeTracker></GazeTracker>
         </div>
     </>
   )

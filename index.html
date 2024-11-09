@@ -9,18 +9,19 @@
   <body>
     <div id="root"></div>
     <script src="webgazer.js" async></script>
-    <script>
+    <!-- <script>
         window.onload = function () {
             webgazer.setGazeListener((data, elapsedTime) => {
                 //console.log(data)
               })
               .showVideo(true) // Display the camera monitor
               .showFaceOverlay(true)
+              .saveDataAcrossSessions(false)
               .showFaceFeedbackBox(true)
               .begin();
           
         }
-    </script>   
+    </script> -->
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
