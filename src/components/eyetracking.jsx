@@ -6,7 +6,7 @@ const GazeTracker = () => {
 
     //const [isRandomizing, setIsRandomizing] = useState(false);
     const [classification, setClassification] = useState("none");
-    const [isSuccessful, setIsSuccessful] = useState(true);
+    const [isSuccessful, setIsSuccessful] = useState(false);
 
     const directions = ["top", "left", "bottom", "right"];
     const directionTexts = {
@@ -16,7 +16,7 @@ const GazeTracker = () => {
         bottom: "Down\n👇",
     };
     const [currentDirection, setCurrentDirection] = useState("Ready");
-    const [testStatus, setTestStatus] = useState("Not started");
+    const [testStatus, setTestStatus] = useState("Not started ");
     const [flashEffect, setFlashEffect] = useState(false);
     const [stepCount, setStepCount] = useState(0);
 
@@ -118,7 +118,7 @@ const GazeTracker = () => {
                     if (data) {
                         var xprediction = data.x; //these x coordinates are relative to the viewport
                         var yprediction = data.y;
-                        console.log(xprediction);
+
                         setPrediction({ x: xprediction, y: yprediction });
                         //checkGazePosition(xprediction, yprediction);
                     }
@@ -193,6 +193,16 @@ const GazeTracker = () => {
         return () => clearInterval(timerId);
     }, [classification, currentDirection, timerRunning]);
 
+    useEffect(() => {
+        const totalMatchingTime = matchingTime.reduce(
+            (acc, time) => acc + time,
+            0
+        );
+        if (totalMatchingTime / 12 > 0.6) {
+            setIsSuccessful(true);
+        }
+    }, [matchingTime]);
+
     const totalMatchingTime = matchingTime.reduce((acc, time) => acc + time, 0);
 
     return (
@@ -226,6 +236,42 @@ const GazeTracker = () => {
                         {prediction.y ? prediction.y.toFixed(2) : "N/A"}
                     </p>
                 </div>
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        position: "fixed",
+                        right: 0,
+                        top: "10em",
+                        margin: 0,
+                        // width: "8em",
+                        // height: "20em",
+
+                        fontSize: 15,
+                        zIndex: 1000,
+                        border: "solid",
+                        padding: "4px",
+                        overflow: "auto",
+                    }}
+                >
+                    <div>
+                        <strong>Debug Stats</strong>
+                    </div>
+                    <div>
+                        <strong>Assigned:</strong> {currentDirection}
+                    </div>
+                    <div>
+                        <strong>Prediction:</strong> {classification}
+                    </div>
+                    <div>
+                        <strong>Verified:</strong>{" "}
+                        {isSuccessful ? "True" : "False"}
+                    </div>
+                    <div style={{ overflow: "hidden" }}>
+                        <strong>Test status: </strong>
+                        {testStatus}
+                    </div>
+                </div>
                 <button
                     onClick={startTest}
                     style={{
@@ -233,10 +279,10 @@ const GazeTracker = () => {
                         flexDirection: "row",
                         position: "fixed",
                         right: 0,
-                        top: "3em",
+                        top: "2em",
                         margin: 0,
 
-                        fontSize: 30,
+                        fontSize: 25,
                         zIndex: 1000,
                         border: "solid",
                         padding: "4px", // Ensure it appears above other elements
@@ -253,7 +299,7 @@ const GazeTracker = () => {
                         // top: "5em",
                         // margin: 0,
                         // padding: 0,
-                        fontSize: 40,
+                        fontSize: 30,
                         backgroundColor: flashEffect
                             ? "rgba(0, 255, 255, 0.2)"
                             : "transparent",
@@ -271,22 +317,23 @@ const GazeTracker = () => {
                     {testStatus ===
                         "Finished test, you can click and try again" && (
                         <div>
-                            Finished test, you can click and try again
+                            You have finished the test.
                             <div>
-                                Matching times:{" "}
-                                {matchingTime
-                                    .map((time) => time.toFixed(1))
-                                    .join(", ")}
+                                Here is your result:
+                                <strong>
+                                    {isSuccessful
+                                        ? " Verified"
+                                        : " Not Verified. You could try again"}
+                                </strong>
                             </div>
                             <div>
                                 Total matching time:{" "}
-                                {totalMatchingTime.toFixed(1)}s
+                                {totalMatchingTime.toFixed(1)}s out of 12s (
+                                {(totalMatchingTime / 12).toFixed(2) * 100}%)
                             </div>
                         </div>
                     )}
                 </div>
-                <div>{currentDirection}</div>
-                <div>{classification}</div>
             </div>
         </>
     );
