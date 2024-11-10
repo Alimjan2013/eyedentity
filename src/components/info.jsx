@@ -83,7 +83,7 @@ const VotingComponent = ({ isSuccessful }) => {
 
     return (
         <div style={{ textAlign: "center", padding: "20px" }}>
-            <h1>Come to vote</h1>
+            <h1>Be A Human - And Cast Your Vote!</h1>
             <button
                 onClick={() => {
                     if (!isSuccessful) {
@@ -94,7 +94,7 @@ const VotingComponent = ({ isSuccessful }) => {
                 }}
                 style={{ padding: "10px 20px", margin: "20px 0" }}
             >
-                Show My Info
+                Generate Token
             </button>
             {loading && (
                 <div style={{ marginTop: "20px" }}>

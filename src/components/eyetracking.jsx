@@ -16,8 +16,8 @@ const GazeTracker = () => {
         bottom: "Down\n👇",
     };
     const [currentDirection, setCurrentDirection] = useState("Ready");
-    const [testStatus, setTestStatus] = useState("Not started ");
-    const [flashEffect, setFlashEffect] = useState(false);
+    const [testStatus, setTestStatus] = useState("Not attempted");
+    const [flashEffect, setFlashEffect] = useState(true);
     const [stepCount, setStepCount] = useState(0);
 
     const [matchingTime, setMatchingTime] = useState([0, 0, 0, 0]); // Array for [top, left, bottom, right]
@@ -131,6 +131,12 @@ const GazeTracker = () => {
         }
     }, []);
 
+    const pauseVideo = () => {
+        window.webgazer.pause();
+    };
+    const startVideo = () => {
+        window.webgazer.resume();
+    };
     const startTest = () => {
         setTestStatus("Starting...");
         setCurrentDirection("none");
@@ -168,7 +174,7 @@ const GazeTracker = () => {
                 clearInterval(intervalId);
                 setTimerRunning(false);
                 setCurrentDirection("none");
-                setTestStatus("Finished test, you can click and try again");
+                setTestStatus("Test finished");
             }
         }, 3000);
     };
@@ -208,12 +214,22 @@ const GazeTracker = () => {
     return (
         <>
             <div style={overlayStyle}></div>
+            {isSuccessful && (
+                <div style={{}}>
+                    <p>
+                        You now have the access to the poll, remember to take
+                        your token
+                    </p>
+                    <a href="https://www.is-ali.tech/polis">
+                        click here to view the poll
+                    </a>
+                </div>
+            )}
             <VotingComponent
                 isSuccessful={isSuccessful}
                 style={{ zIndex: 1001 }}
             ></VotingComponent>
             <div>
-                <a href="https://www.google.com">click here</a>
                 <div
                     style={{
                         display: "flex",
@@ -292,6 +308,57 @@ const GazeTracker = () => {
                 </button>
                 <div
                     style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        position: "fixed",
+                        right: 0,
+                        top: "4em",
+                        margin: 0,
+
+                        fontSize: 25,
+                        zIndex: 1000,
+                    }}
+                >
+                    <button
+                        onClick={pauseVideo}
+                        style={{
+                            // display: "flex",
+                            // flexDirection: "row",
+                            // position: "fixed",
+                            // right: 0,
+                            // top: "4em",
+                            // margin: 0,
+
+                            fontSize: 25,
+                            zIndex: 1000,
+                            border: "solid",
+                            padding: "4px", // Ensure it appears above other elements
+                        }}
+                    >
+                        Pause Video
+                    </button>
+                    <button
+                        onClick={startVideo}
+                        style={{
+                            // display: "flex",
+                            // flexDirection: "row",
+                            // position: "fixed",
+                            // right: 0,
+                            // top: "4em",
+                            // margin: 0,
+
+                            fontSize: 25,
+                            zIndex: 1000,
+                            border: "solid",
+                            padding: "4px", // Ensure it appears above other elements
+                        }}
+                    >
+                        Start Video
+                    </button>
+                </div>
+
+                <div
+                    style={{
                         // display: "flex",
                         // flexDirection: "row",
                         // position: "fixed",
@@ -314,8 +381,7 @@ const GazeTracker = () => {
                                 <div>{directionTexts[currentDirection]}</div>
                             </div>
                         )}
-                    {testStatus ===
-                        "Finished test, you can click and try again" && (
+                    {testStatus === "Test finished" && (
                         <div>
                             You have finished the test.
                             <div>
