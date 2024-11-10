@@ -6,7 +6,7 @@ const GazeTracker = () => {
 
     //const [isRandomizing, setIsRandomizing] = useState(false);
     const [classification, setClassification] = useState("none");
-    const [isSuccessful, setIsSuccessful] = useState(true);
+    const [isSuccessful, setIsSuccessful] = useState(false);
 
     const directions = ["top", "left", "bottom", "right"];
     const directionTexts = {
