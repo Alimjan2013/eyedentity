@@ -258,7 +258,8 @@ const GazeTracker = () => {
                         fontSize: 10,
                         color: "#333",
                         right: 0,
-                        bottom: "25em",
+                        bottom: "5em",
+                        width: "30em",
                         position: "fixed",
                         border: "solid",
                         borderRadius: "8px",
@@ -267,17 +268,26 @@ const GazeTracker = () => {
                 >
                     <strong>User Guide:</strong>
                     <ol>
-                        <li>
-                            Calibrate the gaze tracking to ensure accurate
-                            detection before starting.
+                        <li style={{ color: "red" }}>
+                            <strong>
+                                Calibrate the gaze tracking to ensure accurate
+                                detection before starting.
+                            </strong>
+                        </li>
+                        <li style={{ color: "red" }}>
+                            <strong>
+                                Use mouse to click on the place while looking at
+                                the pointer several times until the detection is
+                                accurate enough!!
+                            </strong>
                         </li>
                         <li>
-                            Once started, look in the general direction
-                            indicated on the screen.
+                            Click 'Start Human Testing', look in the general
+                            direction indicated on the screen.
                         </li>
                         <li>
-                            Complete the human verification test to receive a
-                            token.
+                            Complete the human verification (50%) test to
+                            receive a token.
                         </li>
                         <li>
                             Once verified with the token, you can participate in
@@ -437,7 +447,6 @@ const GazeTracker = () => {
                         </div>
                     )}
                 </div>
-                {/* User Guide */}
             </div>
         </>
     );
