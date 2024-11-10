@@ -13,6 +13,23 @@ npm i
 npm run dev
 ```
 
+## Try online demo
+
+[demo](https://eyedentity-hazel.vercel.app)
+
+**Note:** If the demo doesn't work for you or the camera is not being display, try:
+
+-   refreash the page
+-   turning the camera permission off and on again
+-   open the link in incognito mode and provide the camera permission on the browser.
+
+## Screenshots
+
+![alt text](image.png)
+_Figure 1. human identification_
+![alt text](image-1.png)
+_Figure 2. progress tracking simulator_
+
 ## Supported Broswers
 
 ![alt text](browsers.png)
