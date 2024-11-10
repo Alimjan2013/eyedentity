@@ -12,3 +12,7 @@ cd eyedentity
 npm i
 npm run dev
 ```
+
+## Supported Broswers
+
+![alt text](browsers.png)
