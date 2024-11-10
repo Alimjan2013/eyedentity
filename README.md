@@ -1,8 +1,5 @@
-# React + Vite
+# Junction 2024: EyeDentity
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+We aim to make Finland the world leader of digital democracy and ensuring human participation on the Polis platform while maintaining anonymity. To address the issues, we created a human identifying tool based on deep gazing detection. It can be easily integrated with online vote platforms and provides light-weight verification and progress tracking solution.
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+[Video Demo: EyeDentity](https://youtu.be/OQfNrrYMaao)
