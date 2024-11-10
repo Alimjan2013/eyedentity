@@ -82,7 +82,7 @@ const VotingComponent = ({ isSuccessful }) => {
     }
 
     return (
-        <div style={{ textAlign: "center", padding: "20px" }}>
+        <div style={{ textAlign: "center", padding: "10px" }}>
             <h1>Be A Human - And Cast Your Vote!</h1>
             <button
                 onClick={() => {
@@ -114,7 +114,7 @@ const VotingComponent = ({ isSuccessful }) => {
             )}
 
             {!loading && info && (
-                <div style={{ marginTop: "20px" }}>
+                <div style={{ marginTop: "20px", fontSize: 10 }}>
                     <h2 style={{ color: "red" }}>Token copied to clipboard</h2>
                     {info.error ? (
                         <p>{info.error}</p>

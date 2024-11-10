@@ -6,7 +6,7 @@ const GazeTracker = () => {
 
     //const [isRandomizing, setIsRandomizing] = useState(false);
     const [classification, setClassification] = useState("none");
-    const [isSuccessful, setIsSuccessful] = useState(false);
+    const [isSuccessful, setIsSuccessful] = useState(true);
 
     const directions = ["top", "left", "bottom", "right"];
     const directionTexts = {
@@ -252,6 +252,43 @@ const GazeTracker = () => {
                         {prediction.y ? prediction.y.toFixed(2) : "N/A"}
                     </p>
                 </div>
+
+                <div
+                    style={{
+                        fontSize: 10,
+                        color: "#333",
+                        right: 0,
+                        bottom: "25em",
+                        position: "fixed",
+                        border: "solid",
+                        borderRadius: "8px",
+                        backgroundColor: "#f9f9f9",
+                    }}
+                >
+                    <strong>User Guide:</strong>
+                    <ol>
+                        <li>
+                            Calibrate the gaze tracking to ensure accurate
+                            detection before starting.
+                        </li>
+                        <li>
+                            Once started, look in the general direction
+                            indicated on the screen.
+                        </li>
+                        <li>
+                            Complete the human verification test to receive a
+                            token.
+                        </li>
+                        <li>
+                            Once verified with the token, you can participate in
+                            voting.
+                        </li>
+                        <li>
+                            Use the "Pause" and "Start" buttons to control
+                            recording as needed.
+                        </li>
+                    </ol>
+                </div>
                 <div
                     style={{
                         display: "flex",
@@ -366,7 +403,7 @@ const GazeTracker = () => {
                         // top: "5em",
                         // margin: 0,
                         // padding: 0,
-                        fontSize: 30,
+                        fontSize: 15,
                         backgroundColor: flashEffect
                             ? "rgba(0, 255, 255, 0.2)"
                             : "transparent",
@@ -401,26 +438,6 @@ const GazeTracker = () => {
                     )}
                 </div>
                 {/* User Guide */}
-                <div
-                    style={{
-                        fontSize: 20,
-                        color: "#333",
-                        padding: "1em",
-                        marginTop: "1em",
-                        border: "1px solid #ccc",
-                        borderRadius: "8px",
-                        backgroundColor: "#f9f9f9",
-                    }}
-                >
-                    <strong>User Guide:</strong>
-                    <ol>
-                        <li>Calibrate the gaze tracking to ensure accurate detection before starting.</li>
-                        <li>Once started, look in the general direction indicated on the screen.</li>
-                        <li>Complete the human verification test to receive a token.</li>
-                        <li>Once verified with the token, you can participate in voting.</li>
-                        <li>Use the "Pause" and "Start" buttons to control recording as needed.</li>
-                    </ol>
-                </div>
             </div>
         </>
     );
