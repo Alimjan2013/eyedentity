@@ -400,6 +400,27 @@ const GazeTracker = () => {
                         </div>
                     )}
                 </div>
+                {/* User Guide */}
+                <div
+                    style={{
+                        fontSize: 20,
+                        color: "#333",
+                        padding: "1em",
+                        marginTop: "1em",
+                        border: "1px solid #ccc",
+                        borderRadius: "8px",
+                        backgroundColor: "#f9f9f9",
+                    }}
+                >
+                    <strong>User Guide:</strong>
+                    <ol>
+                        <li>Calibrate the gaze tracking to ensure accurate detection before starting.</li>
+                        <li>Once started, look in the general direction indicated on the screen.</li>
+                        <li>Complete the human verification test to receive a token.</li>
+                        <li>Once verified with the token, you can participate in voting.</li>
+                        <li>Use the "Pause" and "Start" buttons to control recording as needed.</li>
+                    </ol>
+                </div>
             </div>
         </>
     );
