@@ -334,6 +334,16 @@ const GazeTracker = () => {
                         <strong>Test status: </strong>
                         {testStatus}
                     </div>
+                    <div style={{ color: "green" }}>
+                        <strong>Passing threshold: 50%</strong>
+                    </div>
+
+                    <div>
+                        <strong>
+                            Current matching rate{" "}
+                            {(totalMatchingTime / 12).toFixed(2) * 100}%
+                        </strong>
+                    </div>
                 </div>
                 <button
                     onClick={startTest}
