@@ -112,8 +112,8 @@ const GazeTracker = () => {
 
     useEffect(() => {
         // Ensure WebGazer is available and properly loaded
-        if (window.webgazer) {
-            window.webgazer
+        if (webgazer) {
+            webgazer
                 .setGazeListener((data, elapsedTime) => {
                     if (data) {
                         var xprediction = data.x; //these x coordinates are relative to the viewport
@@ -204,7 +204,7 @@ const GazeTracker = () => {
             (acc, time) => acc + time,
             0
         );
-        if (totalMatchingTime / 12 > 0.6) {
+        if (totalMatchingTime / 12 > 0.5) {
             setIsSuccessful(true);
         }
     }, [matchingTime]);
