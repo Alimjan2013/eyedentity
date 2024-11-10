@@ -434,8 +434,12 @@ const GazeTracker = () => {
                     {testStatus === "Running" &&
                         currentDirection !== "none" && (
                             <div>
-                                <div>Step {stepCount}:</div>
-                                <div>{directionTexts[currentDirection]}</div>
+                                <div style={{ fontSize: 50 }}>
+                                    Step {stepCount}:
+                                </div>
+                                <div style={{ fontSize: 50 }}>
+                                    {directionTexts[currentDirection]}
+                                </div>
                             </div>
                         )}
                     {testStatus === "Test finished" && (
