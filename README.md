@@ -33,3 +33,17 @@ _Figure 2. progress tracking simulator_
 ## Supported Broswers
 
 ![alt text](browsers.png)
+
+## Deep Model Used
+
+[WebGazer.js from Brown University](https://webgazer.cs.brown.edu/#publication)
+
+## Team members
+
+- James: [LinkedIn](https://www.linkedin.com/in/ziqi-wang-21baa8298/) [GitHub](https://github.com/James-Leste)
+- Ali: [LinkedIn](https://www.linkedin.com/in/alimjan-ablimit/) [GitHub](https://github.com/Alimjan2013)
+- Sean: [LinkedIn](https://www.linkedin.com/in/sihang-yu/) [GitHub](https://github.com/SihangYu7)
+
+## Contribution
+
+Just create a pull request or issue! We would love to hear from you!
