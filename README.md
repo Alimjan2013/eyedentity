@@ -19,16 +19,17 @@ npm run dev
 
 **Note:** If the demo doesn't work for you or the camera is not being display, try:
 
--   refreash the page
+-   refreashing the page
+-   switching to one of the supported browsers
 -   turning the camera permission off and on again
--   open the link in incognito mode and provide the camera permission on the browser.
+-   opening the link in incognito mode and provide the camera permission on the browser.
 
 ## Screenshots
 
-![alt text](image.png)
-_Figure 1. human identification_
-![alt text](image-1.png)
-_Figure 2. progress tracking simulator_
+![alt text](imgs/eyetracking.gif)
+_Figure 1. gaze tracking_
+![alt text](imgs/voting.gif)
+_Figure 2. [voting progress tracking simulator](https://github.com/Alimjan2013/is-ali/tree/main/app/polis) made by [Ali](https://github.com/Alimjan2013)_
 
 ## Supported Broswers
 
@@ -40,10 +41,14 @@ _Figure 2. progress tracking simulator_
 
 ## Team members
 
-- James: [LinkedIn](https://www.linkedin.com/in/ziqi-wang-21baa8298/) [GitHub](https://github.com/James-Leste)
-- Ali: [LinkedIn](https://www.linkedin.com/in/alimjan-ablimit/) [GitHub](https://github.com/Alimjan2013)
-- Sean: [LinkedIn](https://www.linkedin.com/in/sihang-yu/) [GitHub](https://github.com/SihangYu7)
+-   James: [LinkedIn](https://www.linkedin.com/in/ziqi-wang-21baa8298/) [GitHub](https://github.com/James-Leste)
+-   Ali: [LinkedIn](https://www.linkedin.com/in/alimjan-ablimit/) [GitHub](https://github.com/Alimjan2013)
+-   Sean: [LinkedIn](https://www.linkedin.com/in/sihang-yu/) [GitHub](https://github.com/SihangYu7)
 
-## Contribution
+## Contribute
 
-Just create a pull request or issue! We would love to hear from you!
+Create a pull request or issue! We would love to hear from you! We will review it as soon as we can!
+
+## License
+
+[GNU GENERAL PUBLIC LICENSE](https://github.com/James-Leste/eyedentity/blob/main/LICENSE.md)
