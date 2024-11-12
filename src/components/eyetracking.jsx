@@ -239,12 +239,9 @@ const GazeTracker = () => {
                         top: 0,
                         margin: 0,
                         padding: 0,
-                        // width: "100%",
-                        // backgroundColor: "white",
-                        // padding: "10px",
+                        
                         zIndex: 1000, // Ensure it appears above other elements
                     }}
-                    //className="flex flex-row absolute top-0 left-0 w-full pad-[10px] z-[1000]"
                 >
                     <p>
                         Current Gaze Position: X:{" "}
@@ -307,9 +304,6 @@ const GazeTracker = () => {
                         right: 0,
                         top: "10em",
                         margin: 0,
-                        // width: "8em",
-                        // height: "20em",
-
                         fontSize: 15,
                         zIndex: 1000,
                         border: "solid",
@@ -379,13 +373,6 @@ const GazeTracker = () => {
                     <button
                         onClick={pauseVideo}
                         style={{
-                            // display: "flex",
-                            // flexDirection: "row",
-                            // position: "fixed",
-                            // right: 0,
-                            // top: "4em",
-                            // margin: 0,
-
                             fontSize: 25,
                             zIndex: 1000,
                             border: "solid",
@@ -397,13 +384,6 @@ const GazeTracker = () => {
                     <button
                         onClick={startVideo}
                         style={{
-                            // display: "flex",
-                            // flexDirection: "row",
-                            // position: "fixed",
-                            // right: 0,
-                            // top: "4em",
-                            // margin: 0,
-
                             fontSize: 25,
                             zIndex: 1000,
                             border: "solid",
@@ -416,13 +396,6 @@ const GazeTracker = () => {
 
                 <div
                     style={{
-                        // display: "flex",
-                        // flexDirection: "row",
-                        // position: "fixed",
-                        // right: 0,
-                        // top: "5em",
-                        // margin: 0,
-                        // padding: 0,
                         fontSize: 15,
                         backgroundColor: flashEffect
                             ? "rgba(0, 255, 255, 0.2)"
