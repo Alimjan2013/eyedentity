@@ -40,7 +40,7 @@ The server should start on [http://localhost:5173/](http://localhost:5173/)
 
 ## Supported Broswers
 
-![alt text](browsers.png)
+![alt text](imgs/browsers.png)
 *Figure 4. supported browsers*
 
 ## Deep Model Used
